@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jessica & Daniel's Wedding | 18 October 2026</title>
+<meta name="description" content="Jessica & Daniel are getting married on Sunday 18 October 2026 at Zest Waterfront Venues, Mosman, Sydney.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+  <span></span><span></span><span></span>
+</button>
+
+<nav class="site-nav" id="siteNav">
+  <ul>
+    <li><a href="#home" class="nav-link">Home</a></li>
+    <li><a href="#schedule" class="nav-link">Schedule</a></li>
+    <li><a href="#registry" class="nav-link">Registry</a></li>
+    <li><a href="#rsvp" class="nav-link">RSVP</a></li>
+    <li><a href="#faq" class="nav-link">Q&amp;A</a></li>
+    <li><a href="#stay" class="nav-link">Travel &amp; Stay</a></li>
+  </ul>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+
+<header id="home" class="hero">
+  <div class="hero-photo">
+    <img src="images/hero.jpg" alt="Jessica and Daniel" class="hero-img">
+  </div>
+  <div class="hero-details">
+    <p class="eyebrow">We're getting married</p>
+    <h1>Jessica &amp; Daniel</h1>
+    <p class="hero-sub">We can't wait to celebrate our special day with you.</p>
+    <div class="hero-date">
+      <span class="date">18 October 2026</span>
+    </div>
+    <p class="hero-venue">Zest Waterfront Venues, Spit Road, Mosman NSW, Australia</p>
+
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="countdown-item"><span class="num" id="cd-days">--</span><span class="label">Days</span></div>
+      <div class="countdown-item"><span class="num" id="cd-hours">--</span><span class="label">Hrs</span></div>
+      <div class="countdown-item"><span class="num" id="cd-mins">--</span><span class="label">Mins</span></div>
+      <div class="countdown-item"><span class="num" id="cd-secs">--</span><span class="label">Secs</span></div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="https://forms.gle/gH3tYv1dDQS2jbG3A" class="btn btn-primary" target="_blank" rel="noopener">RSVP</a>
+      <a href="#schedule" class="btn btn-outline">View Schedule</a>
+    </div>
+
+    <a href="#schedule" class="scroll-cue" aria-label="Scroll to schedule">&#8964;</a>
+  </div>
+</header>
+
+<main>
+
+  <section id="schedule" class="section">
+    <div class="container">
+      <p class="eyebrow center">Sunday 18 October 2026</p>
+      <h2 class="section-title center">Schedule</h2>
+      <div class="venue-card">
+        <div>
+          <h3>Dress Code</h3>
+          <p>Semi-formal (no ties). Don't forget your dancing shoes!</p>
+        </div>
+      </div>
+
+      <div class="venue-card">
+        <div>
+          <h3>Zest Waterfront Venues</h3>
+          <p>Spit Road, Mosman NSW, Australia</p>
+        </div>
+        <div class="venue-actions">
+          <a class="btn btn-small btn-outline" href="https://www.google.com/maps/search/?api=1&query=Zest+Waterfront+Venues%2C+Spit+Road%2C+Mosman+NSW%2C+Australia" target="_blank" rel="noopener">Directions</a>
+          <div class="cal-dropdown" id="calDropdown">
+            <button class="btn btn-small btn-outline cal-dropdown-toggle" id="calendarToggle" aria-haspopup="true" aria-expanded="false">Add to Calendar</button>
+            <div class="cal-dropdown-menu" id="calendarMenu">
+              <a href="#" class="cal-option" id="calGoogle" target="_blank" rel="noopener">Google Calendar</a>
+              <a href="#" class="cal-option" id="calOutlook" target="_blank" rel="noopener">Outlook</a>
+              <a href="#" class="cal-option" id="calYahoo" target="_blank" rel="noopener">Yahoo Calendar</a>
+              <a href="#" class="cal-option" id="calApple">Apple / iCal (.ics)</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ol class="timeline">
+        <li class="timeline-item">
+          <div class="timeline-time">5:45&nbsp;pm</div>
+          <div class="timeline-body">
+            <h4>Chuppah</h4>
+            <p>Please arrive at 5:45pm as the wedding ceremony will start at 6:00pm sharp.</p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">6:30&nbsp;pm</div>
+          <div class="timeline-body">
+            <h4>Cocktail Hour</h4>
+            <p>Extended canap&eacute;s (note this is also entr&eacute;e).</p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time">8:00&nbsp;&ndash;&nbsp;11:30&nbsp;pm</div>
+          <div class="timeline-body">
+            <h4>Dinner &amp; Dancing</h4>
+            <p>Let's celebrate into the night.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="registry" class="section section-alt">
+    <div class="container">
+      <p class="eyebrow center">Registry</p>
+      <h2 class="section-title center">Your presence is the best present</h2>
+      <p class="section-lede center">Sharing our special day with you is what matters most, but for those who would like to buy us a gift or contribute towards one of the funds for things we love (travel, art and experiences), details are below.</p>
+
+      <div class="registry-grid">
+        <a class="registry-card registry-card-featured" href="https://thankfulregistry.com/jessica-and-daniel" target="_blank" rel="noopener">
+          <span class="registry-badge">Primary Registry</span>
+          <h3>Thankful</h3>
+          <p>thankfulregistry.com/jessica-and-daniel</p>
+          <span class="registry-link">View registry &rarr;</span>
+        </a>
+        <div class="registry-secondary">
+          <a class="registry-card" href="https://contemporaryjudaica.co.uk/apps/giftregistry/registry/442622" target="_blank" rel="noopener">
+            <h3>Contemporary Judaica</h3>
+            <p>contemporary-judaica.co.uk</p>
+            <span class="registry-link">View registry &rarr;</span>
+          </a>
+          <a class="registry-card" href="https://registry.mudaustralia.com/uk/giftregistry/?giftregistry_id=41" target="_blank" rel="noopener">
+            <h3>Mud Australia</h3>
+            <p>mudaustralia.co.uk</p>
+            <span class="registry-link">View registry &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rsvp" class="section rsvp-section">
+    <div class="container">
+      <p class="eyebrow center">RSVP</p>
+      <h2 class="section-title center">Please respond by 6 September 2026</h2>
+      <p class="section-lede center">Six weeks before the big day, so we can confirm numbers with our venue and caterers.</p>
+      <div class="rsvp-box">
+        <a href="https://forms.gle/gH3tYv1dDQS2jbG3A" class="btn btn-primary btn-large" id="rsvpBtn" target="_blank" rel="noopener">RSVP Now</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section section-alt">
+    <div class="container">
+      <p class="eyebrow center">Q &amp; A</p>
+      <h2 class="section-title center">Got questions?</h2>
+      <p class="section-lede center">If you've got questions, friends and family, have a look here first!</p>
+
+      <div class="accordion" id="accordion">
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span>When's the RSVP deadline?</span><span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>Please RSVP by 6 September 2026 &mdash; six weeks before the big day &mdash; so we can confirm numbers with our venue and caterers.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span>Are kids welcome?</span><span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>We love your little ones, however this is an adults-only evening. We hope it gives you a chance to let your hair down and celebrate with us properly &mdash; we really appreciate your understanding.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span>Where can I park?</span><span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>There are plentiful spaces in the council carparks adjacent to Zest on Spit Road. Parking is free from 6:00 pm, with over 300 spaces available. That said, a taxi or rideshare home is always a good idea after a big night!</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span>What should I wear?</span><span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>Think relaxed elegance &mdash; come looking your best and feel completely at ease. Smart casual with personality. October in Sydney is spring and the evenings are warm, so dress for a beautiful night by the harbour. No ties required, and we'd love to see a bit of colour.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span>Who should I contact if I have questions?</span><span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>Please reach out directly to Jess or Daniel and we'll be happy to help. We can't wait to celebrate with you.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span>What is a chuppah ceremony?</span><span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>A chuppah is a traditional Jewish wedding canopy under which the couple is married. It symbolises the home and life the couple will build together. Our ceremony will incorporate this beautiful tradition as part of our celebration.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            <span>Can I take photos and videos during the ceremony?</span><span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <p>We're having an unplugged ceremony &mdash; we kindly ask that phones and cameras are put away during the chuppah so we can all be fully present together. Our photographer will capture every moment beautifully. Photos are absolutely welcome at the reception!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stay" class="section">
+    <div class="container">
+      <p class="eyebrow center">Travel &amp; Stay</p>
+      <h2 class="section-title center">Coming from out of town?</h2>
+      <p class="section-lede center">Here's where we'd suggest staying, depending on the vibe you're after.</p>
+
+      <div class="stay-grid">
+        <div class="stay-card">
+          <h3>Sydney CBD</h3>
+          <p>Ideal for central location, easy transport connections, and the widest variety of hotels.</p>
+        </div>
+        <div class="stay-card">
+          <h3>Inner East</h3>
+          <p>Surry Hills, Darlinghurst, Paddington and surrounds &mdash; perfect if you love a trendy, neighbourhood feel filled with boutique stays, cosy wine bars, and incredible dining.</p>
+        </div>
+        <div class="stay-card">
+          <h3>Eastern Suburbs</h3>
+          <p>Bondi, Double Bay, Coogee, Bronte and surrounds &mdash; highly recommended if you want to be near the coastal cliff walks and beach views. October weather here is spectacular!</p>
+        </div>
+        <div class="stay-card">
+          <h3>Northern Beaches</h3>
+          <p>Manly is a fantastic seaside option, offering a relaxed coastal vibe with a direct 20-minute ferry ride across the harbour to the city.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Jessica &amp; Daniel &middot; 18 October 2026 &middot; Sydney</p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
