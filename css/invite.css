@@ -100,6 +100,7 @@ a { color: inherit; text-decoration: none; }
   width: 100%;
   aspect-ratio: 886 / 1234;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   transition: transform 1s cubic-bezier(0.45, 0.05, 0.15, 1);
 }
 .is-open .flip-inner {
@@ -111,6 +112,8 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  transform: rotateY(0deg) translateZ(0);
+  -webkit-transform: rotateY(0deg) translateZ(0);
   box-shadow: 0 30px 70px -20px rgba(43, 41, 37, 0.32);
   overflow: hidden;
   display: flex;
@@ -174,7 +177,8 @@ a { color: inherit; text-decoration: none; }
 
 .flip-back {
   background: var(--cream);
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translateZ(0);
+  -webkit-transform: rotateY(180deg) translateZ(0);
 }
 .invite-image {
   width: 100%;
