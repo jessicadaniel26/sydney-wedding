@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're Invited | Jessica &amp; Daniel &middot; 18 October 2026</title>
+<meta name="description" content="Jessica &amp; Daniel invite you to celebrate their wedding on Sunday 18 October 2026 at Zest Waterfront Venues, Mosman, Sydney.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600&family=Herr+Von+Muellerhoff&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/invite.css">
+</head>
+<body>
+
+<div class="invite-stage">
+  <div class="invite-layout">
+
+    <div class="invite-frame" id="inviteFrame">
+      <div class="flip-trigger" id="flipTrigger" role="button" tabindex="0" aria-label="Reveal your invitation">
+        <div class="flip-inner" id="flipInner">
+
+          <!-- Front: gold face, shown first -->
+          <div class="flip-face flip-front">
+            <svg class="front-border" viewBox="0 0 886 1234" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0,76 L886,76"></path>
+              <path d="M0,1153 L886,1153"></path>
+              <path d="M808,0 L808,410 Q886,410 886,505"></path>
+              <path d="M80,1234 L80,800 Q0,800 0,730"></path>
+            </svg>
+            <img src="images/wedding-monogram.png" alt="" class="front-monogram">
+            <span class="front-text" id="frontText">You're Invited!</span>
+            <span class="front-hint">Tap to reveal</span>
+          </div>
+
+          <!-- Back: the actual invitation artwork -->
+          <div class="flip-face flip-back">
+            <img src="images/invite.jpeg" alt="Jessica and Daniel's wedding invitation" class="invite-image" id="inviteImage">
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions: sit beside the card, fade in once it has turned over -->
+    <div class="invite-actions">
+      <a href="index.html" class="btn btn-outline">Full Details &amp; Schedule</a>
+      <a href="https://forms.gle/gH3tYv1dDQS2jbG3A" class="btn btn-primary" target="_blank" rel="noopener">RSVP</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/invite.js"></script>
+</body>
+</html>
