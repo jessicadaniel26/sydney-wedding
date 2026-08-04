@@ -1,12 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  const to = params.get('to');
-
-  const frontTextEl = document.getElementById('frontText');
-  if (frontTextEl && to && to.trim()) {
-    frontTextEl.textContent = to.trim();
-  }
-
   const frame = document.getElementById('inviteFrame');
   const trigger = document.getElementById('flipTrigger');
   let isOpen = false;
