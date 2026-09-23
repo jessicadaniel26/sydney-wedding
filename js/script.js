@@ -59,12 +59,12 @@ setInterval(updateCountdown, 1000);
 // ===== Add to Calendar (multi-provider dropdown) =====
 const EVENT = {
   title: "Jessica & Daniel's Wedding",
-  description: "Semi-formal (no ties). Don't forget your dancing shoes!",
+  description: "Guest arrival 5:30pm, chuppah 5:45pm sharp. Semi-formal (no ties). Don't forget your dancing shoes!",
   location: 'Zest Waterfront Venues, Spit Road, Mosman NSW, Australia',
   // Sydney is UTC+11 (AEDT) on 18 Oct 2026
-  startUTC: '20261018T064500Z',
+  startUTC: '20261018T063000Z',
   endUTC: '20261018T123000Z',
-  startLocal: '20261018T174500',
+  startLocal: '20261018T173000',
   endLocal: '20261018T233000',
 };
 
@@ -108,7 +108,7 @@ if (calendarToggle) {
     'https://calendar.yahoo.com/?v=60&view=d&type=20' +
     `&title=${encodeURIComponent(EVENT.title)}` +
     `&st=${EVENT.startUTC}` +
-    '&dur=0545' +
+    '&dur=0600' +
     `&desc=${encodeURIComponent(EVENT.description)}` +
     `&in_loc=${encodeURIComponent(EVENT.location)}`;
 
