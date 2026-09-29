@@ -228,6 +228,11 @@ p { margin: 0; line-height: 1.6; }
 }
 .cal-option:hover { background: var(--cream-2); }
 
+.schedule-day { scroll-margin-top: 24px; }
+.schedule-day + .schedule-day { margin-top: 72px; }
+.schedule-date { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 28px; }
+.schedule-day .timeline { margin-bottom: 40px; }
+.timeline-body .timeline-note { margin-top: 10px; }
 .timeline { list-style: none; margin: 0 auto 80px; padding: 0; max-width: 640px; }
 .timeline-item {
   display: flex;
