@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Find your seat | Jessica &amp; Daniel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #a98953;
+  --gold-dark: #8a6d3f;
+  --gold-soft: #efe4cf;
+  --ink: #2b2925;
+  --ink-soft: #5c574e;
+  --cream: #faf7f2;
+  --cream-2: #f2ece1;
+  --line: #e3dccb;
+  --white: #ffffff;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font-sans); color: var(--ink); background: var(--cream);
+  -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%;
+}
+.page {
+  max-width: 520px; margin: 0 auto;
+  padding: calc(24px + env(safe-area-inset-top, 0px)) 18px calc(40px + env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; gap: 22px;
+}
+header { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+header img { width: 112px; height: auto; filter: brightness(0); opacity: .82; }
+.eyebrow { letter-spacing: .2em; text-transform: uppercase; font-size: .72rem; color: var(--gold-dark); margin: 0; }
+h1 { font-family: var(--font-serif); font-weight: 500; font-size: 2.4rem; line-height: 1.05; margin: 0; }
+.sub { color: var(--ink-soft); font-size: .95rem; margin: 0; }
+.draft { background: var(--gold-soft); color: var(--gold-dark); font-size: .8rem; text-align: center; padding: 8px 12px; border-radius: 6px; }
+
+.search { display: flex; flex-direction: column; gap: 8px; }
+.search label { font-size: .9rem; color: var(--ink-soft); }
+.field { position: relative; }
+.field input {
+  width: 100%; font: 400 1.15rem var(--font-sans); color: var(--ink);
+  padding: 15px 44px 15px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--white);
+  -webkit-appearance: none; appearance: none;
+}
+.field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+.field .clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border: 0; background: none; color: var(--ink-soft); font-size: 1.4rem; line-height: 1; cursor: pointer; border-radius: 50%; }
+.field .clear:focus-visible { outline: 2px solid var(--gold); }
+
+.results { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 10px; background: var(--white); overflow: hidden; }
+.results li + li { border-top: 1px solid var(--line); }
+.results button { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; background: none; border: 0; font: inherit; color: var(--ink); text-align: left; cursor: pointer; min-height: 52px; }
+.results button:active { background: var(--cream-2); }
+.results button:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.results .nm { font-size: 1.05rem; }
+.results .nm b { font-weight: 600; }
+.results .tb { color: var(--gold-dark); font-size: .9rem; white-space: nowrap; }
+.note { color: var(--ink-soft); font-size: .92rem; text-align: center; line-height: 1.5; margin: 0; }
+
+.card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 22px 18px; display: flex; flex-direction: column; gap: 18px; }
+.who { text-align: center; display: flex; flex-direction: column; gap: 4px; }
+.who h2 { font-family: var(--font-serif); font-weight: 500; font-size: 2rem; line-height: 1.1; margin: 0; }
+.big { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.big > div { display: flex; flex-direction: column; align-items: center; padding: 12px 8px 10px; }
+.big > div + div { border-left: 1px solid var(--line); }
+.big .lbl { letter-spacing: .18em; text-transform: uppercase; font-size: .68rem; color: var(--ink-soft); }
+.big .num { font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; font-family: var(--font-serif); font-size: 3.2rem; line-height: 1; color: var(--gold-dark); }
+.big .num.word { font-size: 1.9rem; line-height: 1.55; }
+.next { text-align: center; color: var(--ink-soft); font-size: .95rem; line-height: 1.5; margin: 0; }
+.next b { color: var(--ink); font-weight: 500; }
+
+.section-h { letter-spacing: .18em; text-transform: uppercase; font-size: .7rem; color: var(--ink-soft); margin: 0 0 8px; }
+.map svg { width: 100%; height: auto; display: block; }
+
+.tgrid { display: grid; grid-template-columns: minmax(0,1fr) 22px 22px minmax(0,1fr); gap: 5px; }
+.seat { min-width: 0; height: 40px; border-radius: 7px; border: 1px solid var(--line); background: var(--cream); display: flex; align-items: center; gap: 6px; padding: 0 8px; }
+.seat .n { font-size: .68rem; color: var(--ink-soft); min-width: 14px; font-variant-numeric: tabular-nums; }
+.seat .t { min-width: 0; display: flex; flex-direction: column; line-height: 1.12; }
+.seat .t span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.seat .f { font-size: .85rem; font-weight: 500; }
+.seat .l { font-size: .72rem; color: var(--ink-soft); }
+.seat.me { background: var(--gold); border-color: var(--gold-dark); color: var(--white); }
+.seat.me .n, .seat.me .l { color: var(--white); opacity: .9; }
+.seat.empty { background: transparent; border-style: dashed; }
+.tbody { background: var(--cream-2); border: 1px solid var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.tbody span { font-family: var(--font-serif); font-size: 1.5rem; color: var(--ink-soft); writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: .05em; }
+.legend-head { display: flex; justify-content: space-between; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); margin-top: 6px; }
+
+.again { align-self: center; font: 500 .85rem var(--font-sans); letter-spacing: .14em; text-transform: uppercase; padding: 14px 26px; border-radius: 2px; border: 1px solid var(--gold); background: none; color: var(--gold-dark); cursor: pointer; }
+.again:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+footer { text-align: center; color: var(--ink-soft); font-size: .78rem; }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: no-preference) {
+  .card { animation: rise .35s ease-out both; }
+  @keyframes rise { from { opacity: .4; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <img src="images/wedding-monogram.png" alt="Jessica and Daniel monogram">
+    <p class="eyebrow">Jessica &amp; Daniel · 18 October 2026</p>
+    <h1>Find your seat</h1>
+    <p class="sub">Type your name to see your table.</p>
+  </header>
+
+  <div class="draft" id="draft" hidden>Preview only. The seating plan isn't final yet.</div>
+
+  <p class="note" id="locked" hidden>To find your seat, please scan the QR code on the seating sign at the venue.</p>
+
+  <section class="search" id="searchBox" hidden>
+    <label for="q">Your first name or surname</label>
+    <div class="field">
+      <input id="q" type="search" inputmode="search" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" placeholder="e.g. Daniel Porus" enterkeyhint="search">
+      <button class="clear" id="clear" type="button" aria-label="Clear" hidden>&times;</button>
+    </div>
+    <p class="note" id="note" hidden></p>
+    <ul class="results" id="results" hidden></ul>
+  </section>
+
+  <section class="card" id="card" hidden aria-live="polite"></section>
+
+  <footer>Can't find your name? Please ask one of our ushers.</footer>
+</main>
+
+<script src="js/seating-data.js"></script>
+<script>
+// The guest list ships encrypted. Its key travels only in the QR code's #fragment,
+// which browsers never send to the web server, so the published files hold no readable names.
+async function loadSeating() {
+  var enc = window.SEATING_ENC, k = (location.hash || "").replace(/^#/, "");
+  if (!enc || !k || !window.crypto || !crypto.subtle) return null;
+  try {
+    var b64 = function (s) { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; return Uint8Array.from(atob(s), function (c) { return c.charCodeAt(0); }); };
+    var key = await crypto.subtle.importKey("raw", b64(k), "AES-GCM", false, ["decrypt"]);
+    var plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, key, b64(enc.ct));
+    return JSON.parse(new TextDecoder().decode(plain));
+  } catch (e) { return null; }
+}
+
+(async function () {
+  var D = await loadSeating();
+  if (!D) { document.getElementById("locked").hidden = false; return; }
+  document.getElementById("searchBox").hidden = false;
+  var GUESTS = D.guests.map(function (g, i) { return { i: i, f: g[0], l: g[1], t: g[2], s: g[3] }; });
+  var $ = function (id) { return document.getElementById(id); };
+  var q = $("q"), results = $("results"), note = $("note"), card = $("card"), clearBtn = $("clear");
+  if (D.draft) $("draft").hidden = false;
+
+  function norm(s) { return String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z\s-]/g, "").trim(); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  GUESTS.forEach(function (g) { g.tokens = norm(g.f + " " + g.l).split(/[\s-]+/).filter(Boolean); g.full = norm(g.f + " " + g.l); });
+  function tableName(t) { return t === 0 ? "Family table" : "Table " + t; }
+
+  function lev(a, b) {
+    var m = a.length, n = b.length, d = [], i, j;
+    for (i = 0; i <= m; i++) { d[i] = [i]; }
+    for (j = 1; j <= n; j++) d[0][j] = j;
+    for (i = 1; i <= m; i++) for (j = 1; j <= n; j++)
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[m][n];
+  }
+
+  function search(text) {
+    var qt = norm(text).split(/[\s-]+/).filter(Boolean);
+    if (!qt.length) return { list: [], fuzzy: false };
+    var exact = GUESTS.filter(function (g) {
+      return qt.every(function (t) { return g.tokens.some(function (n) { return n.indexOf(t) === 0; }); });
+    });
+    if (exact.length) {
+      exact.sort(function (a, b) {
+        var af = a.tokens[0].indexOf(qt[0]) === 0 ? 0 : 1, bf = b.tokens[0].indexOf(qt[0]) === 0 ? 0 : 1;
+        return af - bf || a.f.localeCompare(b.f) || a.l.localeCompare(b.l);
+      });
+      return { list: exact, fuzzy: false };
+    }
+    // Allow small typos: each typed word within 1–2 letters of the start of a name word.
+    var fuzzy = GUESTS.map(function (g) {
+      var total = 0;
+      for (var k = 0; k < qt.length; k++) {
+        var t = qt[k], best = 99;
+        g.tokens.forEach(function (n) { best = Math.min(best, lev(t, n), lev(t, n.slice(0, t.length))); });
+        var allow = t.length <= 3 ? 0 : t.length <= 6 ? 1 : 2;
+        if (best > allow) return null;
+        total += best;
+      }
+      return { g: g, score: total };
+    }).filter(Boolean).sort(function (a, b) { return a.score - b.score; }).map(function (x) { return x.g; });
+    return { list: fuzzy, fuzzy: true };
+  }
+
+  function renderResults() {
+    var text = q.value;
+    clearBtn.hidden = !text;
+    if (norm(text).length < 2) { results.hidden = true; note.hidden = true; return; }
+    var r = search(text), list = r.list.slice(0, 8);
+    if (!list.length) {
+      results.hidden = true; note.hidden = false;
+      note.textContent = "We couldn't find that name. Try just your first name or surname.";
+      return;
+    }
+    note.hidden = !r.fuzzy;
+    if (r.fuzzy) note.textContent = "No exact match. Did you mean one of these?";
+    results.innerHTML = list.map(function (g) {
+      return '<li><button type="button" data-i="' + g.i + '"><span class="nm"><b>' + esc(g.f) + "</b> " + esc(g.l) +
+        '</span><span class="tb">' + tableName(g.t) + "</span></button></li>";
+    }).join("");
+    results.hidden = false;
+  }
+
+  function shapeOf(t) { var tb = D.tables[t]; return tb && tb.shape; }
+
+  // Seats run clockwise: across the head, down the right, across the foot (right to left), up the left.
+  function geom(sh) {
+    var pos = {}, rows = Math.max(sh.right, sh.left, 1), F = rows + 2, s = 1, i;
+    var offR = Math.floor((rows - sh.right) / 2), offL = Math.floor((rows - sh.left) / 2);
+    if (sh.head === 1) pos[s++] = "1 / 1 / 2 / 5";
+    else if (sh.head === 2) { pos[s++] = "1 / 1 / 2 / 3"; pos[s++] = "1 / 3 / 2 / 5"; }
+    for (i = 0; i < sh.right; i++) { var r = 2 + offR + i; pos[s++] = r + " / 4 / " + (r + 1) + " / 5"; }
+    if (sh.foot === 1) pos[s++] = F + " / 1 / " + (F + 1) + " / 5";
+    else if (sh.foot === 2) { pos[s++] = F + " / 3 / " + (F + 1) + " / 5"; pos[s++] = F + " / 1 / " + (F + 1) + " / 3"; }
+    for (i = 0; i < sh.left; i++) { var rl = 2 + offL + (sh.left - 1 - i); pos[s++] = rl + " / 1 / " + (rl + 1) + " / 2"; }
+    return { rows: rows, pos: pos, cap: s - 1 };
+  }
+
+  function roomSVG(t) {
+    var W = 320, cw = 56, gap = 10, th = 50, x0 = 0, out = [];
+    function box(tt, x, y, w, h) {
+      var on = tt === t;
+      out.push('<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="3" fill="' + (on ? "var(--gold)" : "var(--cream-2)") + '" stroke="' + (on ? "var(--gold-dark)" : "var(--line)") + '"/>');
+      out.push('<text x="' + (x + w / 2) + '" y="' + (y + h / 2 + 5) + '" text-anchor="middle" font-family="Jost, sans-serif" font-size="' + (on ? 15 : 13) + '" font-weight="' + (on ? 600 : 400) + '" fill="' + (on ? "#fff" : "var(--ink-soft)") + '">' + tt + "</text>");
+    }
+    [1, 2, 3, 4, 5].forEach(function (tt, i) { box(tt, x0 + i * (cw + gap), 0, cw, th); });
+    var my = th + gap;
+    box(0, x0, my, cw, 40);
+    out.push('<rect x="' + (cw + gap) + '" y="' + my + '" width="' + (W - cw - gap) + '" height="40" rx="3" fill="#eadfc9"/>');
+    out.push('<text x="' + (cw + gap + (W - cw - gap) / 2) + '" y="' + (my + 25) + '" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="17" fill="var(--ink-soft)">Dance floor</text>');
+    var by = my + 40 + gap;
+    [10, 9, 8, 7, 6].forEach(function (tt, i) { box(tt, x0 + i * (cw + gap), by, cw, th); });
+    return '<svg viewBox="-2 -2 ' + (W + 4) + " " + (by + th + 4) + '" role="img" aria-label="Room plan with ' + tableName(t) + ' highlighted">' + out.join("") + "</svg>";
+  }
+
+  function showGuest(g) {
+    var sh = shapeOf(g.t);
+    var mates = {}; GUESTS.forEach(function (x) { if (x.t === g.t) mates[x.s] = x; });
+    var html = '<div class="who"><p class="eyebrow">Welcome</p><h2>' + esc(g.f + " " + g.l) + "</h2></div>";
+    html += '<div class="big"><div><span class="lbl">Table</span><span class="num' + (g.t === 0 ? " word" : "") + '">' + (g.t === 0 ? "Family" : g.t) +
+      '</span></div><div><span class="lbl">Seat</span><span class="num">' + g.s + "</span></div></div>";
+    if (sh) {
+      var G = geom(sh), cap = G.cap;
+      var nb = [((g.s - 2 + cap) % cap) + 1, (g.s % cap) + 1].filter(function (s, i, a) { return s !== g.s && a.indexOf(s) === i && mates[s]; });
+      if (nb.length) html += '<p class="next">You\'re sitting next to ' + nb.map(function (s) { return "<b>" + esc(mates[s].f + " " + mates[s].l) + "</b>"; }).join(" and ") + ".</p>";
+      html += '<div class="map"><p class="section-h">Where your table is</p>' + roomSVG(g.t) + "</div>";
+      var cells = "";
+      for (var s = 1; s <= cap; s++) {
+        var m = mates[s], area = G.pos[s];
+        if (!m) { cells += '<div class="seat empty" style="grid-area:' + area + '"><span class="n">' + s + "</span></div>"; continue; }
+        cells += '<div class="seat' + (m === g ? " me" : "") + '" style="grid-area:' + area + '"' + (m === g ? ' aria-current="true"' : "") +
+          '><span class="n">' + s + '</span><span class="t"><span class="f">' + esc(m.f) + '</span><span class="l">' + esc(m.l) + "</span></span></div>";
+      }
+      cells += '<div class="tbody" style="grid-area:2 / 2 / ' + (G.rows + 2) + ' / 4"><span>' + tableName(g.t) + "</span></div>";
+      html += '<div><p class="section-h">Who\'s at your table</p><div class="tgrid">' + cells + "</div></div>";
+    }
+    html += '<button class="again" type="button" id="again">Find another guest</button>';
+    card.innerHTML = html; card.hidden = false;
+    $("searchBox").hidden = true;
+    window.scrollTo(0, 0);
+    $("again").addEventListener("click", reset);
+  }
+
+  function reset() {
+    card.hidden = true; $("searchBox").hidden = false;
+    q.value = ""; renderResults(); q.focus();
+  }
+
+  q.addEventListener("input", renderResults);
+  q.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { var first = results.querySelector("button"); if (first && !results.hidden) first.click(); }
+  });
+  clearBtn.addEventListener("click", function () { q.value = ""; renderResults(); q.focus(); });
+  results.addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-i]"); if (b) { q.blur(); showGuest(GUESTS[+b.dataset.i]); }
+  });
+})();
+</script>
+</body>
+</html>
