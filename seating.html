@@ -66,7 +66,7 @@ h1 { font-family: var(--font-serif); font-weight: 500; font-size: 2.4rem; line-h
 .card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 22px 18px; display: flex; flex-direction: column; gap: 18px; }
 .who { text-align: center; display: flex; flex-direction: column; gap: 4px; }
 .who h2 { font-family: var(--font-serif); font-weight: 500; font-size: 2rem; line-height: 1.1; margin: 0; }
-.big { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.big { display: grid; grid-template-columns: 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .big > div { display: flex; flex-direction: column; align-items: center; padding: 12px 8px 10px; }
 .big > div + div { border-left: 1px solid var(--line); }
 .big .lbl { letter-spacing: .18em; text-transform: uppercase; font-size: .68rem; color: var(--ink-soft); }
@@ -78,15 +78,18 @@ h1 { font-family: var(--font-serif); font-weight: 500; font-size: 2.4rem; line-h
 .section-h { letter-spacing: .18em; text-transform: uppercase; font-size: .7rem; color: var(--ink-soft); margin: 0 0 8px; }
 .map svg { width: 100%; height: auto; display: block; }
 
-.tgrid { display: grid; grid-template-columns: minmax(0,1fr) 22px 22px minmax(0,1fr); gap: 5px; }
-.seat { min-width: 0; height: 40px; border-radius: 7px; border: 1px solid var(--line); background: var(--cream); display: flex; align-items: center; gap: 6px; padding: 0 8px; }
-.seat .n { font-size: .68rem; color: var(--ink-soft); min-width: 14px; font-variant-numeric: tabular-nums; }
+.tlayout { display: flex; flex-direction: column; gap: 5px; }
+.tend { display: grid; gap: 5px; }
+.tmid { display: grid; grid-template-columns: minmax(0,1fr) 44px minmax(0,1fr); gap: 5px; }
+.tside { display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+.tside.one { justify-content: center; }
+.seat { min-width: 0; height: 40px; border-radius: 7px; border: 1px solid var(--line); background: var(--cream); display: flex; align-items: center; padding: 0 10px; }
 .seat .t { min-width: 0; display: flex; flex-direction: column; line-height: 1.12; }
 .seat .t span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .seat .f { font-size: .85rem; font-weight: 500; }
 .seat .l { font-size: .72rem; color: var(--ink-soft); }
 .seat.me { background: var(--gold); border-color: var(--gold-dark); color: var(--white); }
-.seat.me .n, .seat.me .l { color: var(--white); opacity: .9; }
+.seat.me .l { color: var(--white); opacity: .9; }
 .seat.empty { background: transparent; border-style: dashed; }
 .tbody { background: var(--cream-2); border: 1px solid var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
 .tbody span { font-family: var(--font-serif); font-size: 1.5rem; color: var(--ink-soft); writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: .05em; }
@@ -218,17 +221,12 @@ async function loadSeating() {
 
   function shapeOf(t) { var tb = D.tables[t]; return tb && tb.shape; }
 
-  // Seats run clockwise: across the head, down the right, across the foot (right to left), up the left.
-  function geom(sh) {
-    var pos = {}, rows = Math.max(sh.right, sh.left, 1), F = rows + 2, s = 1, i;
-    var offR = Math.floor((rows - sh.right) / 2), offL = Math.floor((rows - sh.left) / 2);
-    if (sh.head === 1) pos[s++] = "1 / 1 / 2 / 5";
-    else if (sh.head === 2) { pos[s++] = "1 / 1 / 2 / 3"; pos[s++] = "1 / 3 / 2 / 5"; }
-    for (i = 0; i < sh.right; i++) { var r = 2 + offR + i; pos[s++] = r + " / 4 / " + (r + 1) + " / 5"; }
-    if (sh.foot === 1) pos[s++] = F + " / 1 / " + (F + 1) + " / 5";
-    else if (sh.foot === 2) { pos[s++] = F + " / 3 / " + (F + 1) + " / 5"; pos[s++] = F + " / 1 / " + (F + 1) + " / 3"; }
-    for (i = 0; i < sh.left; i++) { var rl = 2 + offL + (sh.left - 1 - i); pos[s++] = rl + " / 1 / " + (rl + 1) + " / 2"; }
-    return { rows: rows, pos: pos, cap: s - 1 };
+  // Seats are numbered clockwise: across the head, down the right, across the foot
+  // (right to left), up the left. Returns each side in on-screen order.
+  function sides(sh) {
+    var s = 1, take = function (n) { var a = []; for (var i = 0; i < n; i++) a.push(s++); return a; };
+    var head = take(sh.head), right = take(sh.right), foot = take(sh.foot).reverse(), left = take(sh.left).reverse();
+    return { head: head, right: right, foot: foot, left: left, rows: Math.max(sh.right, sh.left, 1), cap: s - 1 };
   }
 
   function roomSVG(t) {
@@ -252,22 +250,24 @@ async function loadSeating() {
     var sh = shapeOf(g.t);
     var mates = {}; GUESTS.forEach(function (x) { if (x.t === g.t) mates[x.s] = x; });
     var html = '<div class="who"><p class="eyebrow">Welcome</p><h2>' + esc(g.f + " " + g.l) + "</h2></div>";
-    html += '<div class="big"><div><span class="lbl">Table</span><span class="num' + (g.t === 0 ? " word" : "") + '">' + (g.t === 0 ? "Family" : g.t) +
-      '</span></div><div><span class="lbl">Seat</span><span class="num">' + g.s + "</span></div></div>";
+    html += '<div class="big"><div><span class="lbl">Your table</span><span class="num' + (g.t === 0 ? " word" : "") + '">' + (g.t === 0 ? "Family table" : g.t) + "</span></div></div>";
     if (sh) {
-      var G = geom(sh), cap = G.cap;
+      var S = sides(sh), cap = S.cap;
       var nb = [((g.s - 2 + cap) % cap) + 1, (g.s % cap) + 1].filter(function (s, i, a) { return s !== g.s && a.indexOf(s) === i && mates[s]; });
       if (nb.length) html += '<p class="next">You\'re sitting next to ' + nb.map(function (s) { return "<b>" + esc(mates[s].f + " " + mates[s].l) + "</b>"; }).join(" and ") + ".</p>";
       html += '<div class="map"><p class="section-h">Where your table is</p>' + roomSVG(g.t) + "</div>";
-      var cells = "";
-      for (var s = 1; s <= cap; s++) {
-        var m = mates[s], area = G.pos[s];
-        if (!m) { cells += '<div class="seat empty" style="grid-area:' + area + '"><span class="n">' + s + "</span></div>"; continue; }
-        cells += '<div class="seat' + (m === g ? " me" : "") + '" style="grid-area:' + area + '"' + (m === g ? ' aria-current="true"' : "") +
-          '><span class="n">' + s + '</span><span class="t"><span class="f">' + esc(m.f) + '</span><span class="l">' + esc(m.l) + "</span></span></div>";
-      }
-      cells += '<div class="tbody" style="grid-area:2 / 2 / ' + (G.rows + 2) + ' / 4"><span>' + tableName(g.t) + "</span></div>";
-      html += '<div><p class="section-h">Who\'s at your table</p><div class="tgrid">' + cells + "</div></div>";
+      var seat = function (n) {
+        var m = mates[n];
+        if (!m) return '<div class="seat empty"></div>';
+        return '<div class="seat' + (m === g ? " me" : "") + '"' + (m === g ? ' aria-current="true"' : "") +
+          '><span class="t"><span class="f">' + esc(m.f) + '</span><span class="l">' + esc(m.l) + "</span></span></div>";
+      };
+      var row = function (list) { return list.length ? '<div class="tend" style="grid-template-columns:repeat(' + list.length + ',minmax(0,1fr))">' + list.map(seat).join("") + "</div>" : ""; };
+      var col = function (list) { return '<div class="tside' + (list.length === 1 ? " one" : "") + '">' + list.map(seat).join("") + "</div>"; };
+      var midH = S.rows * 40 + (S.rows - 1) * 5;
+      html += '<div><p class="section-h">Who\'s at your table</p><div class="tlayout">' + row(S.head) +
+        '<div class="tmid" style="height:' + midH + 'px">' + col(S.left) + '<div class="tbody"><span>' + tableName(g.t) + "</span></div>" + col(S.right) + "</div>" +
+        row(S.foot) + "</div></div>";
     }
     html += '<button class="again" type="button" id="again">Find another guest</button>';
     card.innerHTML = html; card.hidden = false;
