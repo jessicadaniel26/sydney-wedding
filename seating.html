@@ -129,14 +129,16 @@ footer { text-align: center; color: var(--ink-soft); font-size: .78rem; }
 
 </main>
 
-<script src="js/seating-data.js"></script>
 <script>
 // The guest list ships encrypted. Its key travels only in the QR code's #fragment,
 // which browsers never send to the web server, so the published files hold no readable names.
 async function loadSeating() {
-  var enc = window.SEATING_ENC, k = (location.hash || "").replace(/^#/, "");
-  if (!enc || !k || !window.crypto || !crypto.subtle) return null;
+  var k = (location.hash || "").replace(/^#/, "");
+  if (!k || !window.crypto || !crypto.subtle) return null;
   try {
+    // Always revalidate so guests see the latest plan, not a cached copy.
+    var src = await (await fetch("js/seating-data.js", { cache: "no-cache" })).text();
+    var enc = JSON.parse(src.slice(src.indexOf("{"), src.lastIndexOf("}") + 1));
     var b64 = function (s) { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; return Uint8Array.from(atob(s), function (c) { return c.charCodeAt(0); }); };
     var key = await crypto.subtle.importKey("raw", b64(k), "AES-GCM", false, ["decrypt"]);
     var plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, key, b64(enc.ct));
