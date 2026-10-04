@@ -161,7 +161,9 @@ async function loadSeating() {
   function norm(s) { return String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z\s-]/g, "").trim(); }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   GUESTS.forEach(function (g) { g.tokens = norm(g.f + " " + g.l).split(/[\s-]+/).filter(Boolean); g.full = norm(g.f + " " + g.l); });
-  function tableName(t) { return t === 0 ? "Family table" : "Table " + t; }
+  // The family table is stored as table 0 but is called Table 11.
+  function tLabel(t) { return t === 0 ? 11 : t; }
+  function tableName(t) { return "Table " + tLabel(t); }
 
   function lev(a, b) {
     var m = a.length, n = b.length, d = [], i, j;
@@ -234,7 +236,7 @@ async function loadSeating() {
     function box(tt, x, y, w, h) {
       var on = tt === t;
       out.push('<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="3" fill="' + (on ? "var(--gold)" : "var(--cream-2)") + '" stroke="' + (on ? "var(--gold-dark)" : "var(--line)") + '"/>');
-      out.push('<text x="' + (x + w / 2) + '" y="' + (y + h / 2 + 5) + '" text-anchor="middle" font-family="Jost, sans-serif" font-size="' + (on ? 15 : 13) + '" font-weight="' + (on ? 600 : 400) + '" fill="' + (on ? "#fff" : "var(--ink-soft)") + '">' + tt + "</text>");
+      out.push('<text x="' + (x + w / 2) + '" y="' + (y + h / 2 + 5) + '" text-anchor="middle" font-family="Jost, sans-serif" font-size="' + (on ? 15 : 13) + '" font-weight="' + (on ? 600 : 400) + '" fill="' + (on ? "#fff" : "var(--ink-soft)") + '">' + tLabel(tt) + "</text>");
     }
     [1, 2, 3, 4, 5].forEach(function (tt, i) { box(tt, x0 + i * (cw + gap), 0, cw, th); });
     var my = th + gap;
@@ -250,7 +252,7 @@ async function loadSeating() {
     var sh = shapeOf(g.t);
     var mates = {}; GUESTS.forEach(function (x) { if (x.t === g.t) mates[x.s] = x; });
     var html = '<div class="who"><p class="eyebrow">Welcome</p><h2>' + esc(g.f + " " + g.l) + "</h2></div>";
-    html += '<div class="big"><div><span class="lbl">' + (g.t === 0 ? "You\u2019re at the" : "You\u2019re at table") + '</span><span class="num' + (g.t === 0 ? " word" : "") + '">' + (g.t === 0 ? "Family table" : g.t) + "</span></div></div>";
+    html += '<div class="big"><div><span class="lbl">You\u2019re at table</span><span class="num">' + tLabel(g.t) + "</span></div></div>";
     if (sh) {
       var S = sides(sh);
       html += '<div class="map"><p class="section-h">Table location</p>' + roomSVG(g.t) + "</div>";
