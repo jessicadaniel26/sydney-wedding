@@ -250,12 +250,10 @@ async function loadSeating() {
     var sh = shapeOf(g.t);
     var mates = {}; GUESTS.forEach(function (x) { if (x.t === g.t) mates[x.s] = x; });
     var html = '<div class="who"><p class="eyebrow">Welcome</p><h2>' + esc(g.f + " " + g.l) + "</h2></div>";
-    html += '<div class="big"><div><span class="lbl">Your table</span><span class="num' + (g.t === 0 ? " word" : "") + '">' + (g.t === 0 ? "Family table" : g.t) + "</span></div></div>";
+    html += '<div class="big"><div><span class="lbl">' + (g.t === 0 ? "You\u2019re at the" : "You\u2019re at table") + '</span><span class="num' + (g.t === 0 ? " word" : "") + '">' + (g.t === 0 ? "Family table" : g.t) + "</span></div></div>";
     if (sh) {
-      var S = sides(sh), cap = S.cap;
-      var nb = [((g.s - 2 + cap) % cap) + 1, (g.s % cap) + 1].filter(function (s, i, a) { return s !== g.s && a.indexOf(s) === i && mates[s]; });
-      if (nb.length) html += '<p class="next">You\'re sitting next to ' + nb.map(function (s) { return "<b>" + esc(mates[s].f + " " + mates[s].l) + "</b>"; }).join(" and ") + ".</p>";
-      html += '<div class="map"><p class="section-h">Where your table is</p>' + roomSVG(g.t) + "</div>";
+      var S = sides(sh);
+      html += '<div class="map"><p class="section-h">Table location</p>' + roomSVG(g.t) + "</div>";
       var seat = function (n) {
         var m = mates[n];
         if (!m) return '<div class="seat empty"></div>';
@@ -265,7 +263,7 @@ async function loadSeating() {
       var row = function (list) { return list.length ? '<div class="tend" style="grid-template-columns:repeat(' + list.length + ',minmax(0,1fr))">' + list.map(seat).join("") + "</div>" : ""; };
       var col = function (list) { return '<div class="tside' + (list.length === 1 ? " one" : "") + '">' + list.map(seat).join("") + "</div>"; };
       var midH = S.rows * 40 + (S.rows - 1) * 5;
-      html += '<div><p class="section-h">Who\'s at your table</p><div class="tlayout">' + row(S.head) +
+      html += '<div><p class="section-h">Seat location</p><div class="tlayout">' + row(S.head) +
         '<div class="tmid" style="height:' + midH + 'px">' + col(S.left) + '<div class="tbody"><span>' + tableName(g.t) + "</span></div>" + col(S.right) + "</div>" +
         row(S.foot) + "</div></div>";
     }
